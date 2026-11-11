@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="364" viewBox="0 0 820 364" role="img" aria-labelledby="title desc">
+  <title id="title">Quake PAK Inspector</title>
+  <desc id="desc">Resultado da inspeção de um mapa do Quake shareware e da análise de um patch de exemplo.</desc>
+  <rect x="1" y="1" width="818" height="362" rx="16" fill="#101824" stroke="#3d5369"/>
+  <path d="M 1,45 H 819" stroke="#3d5369"/>
+  <g fill="#7790a7">
+    <circle cx="24" cy="23" r="4"/><circle cx="39" cy="23" r="4"/><circle cx="54" cy="23" r="4"/>
+  </g>
+  <g font-family="Consolas, Liberation Mono, monospace">
+    <text x="76" y="28" fill="#a9b9cb" font-size="15">pak-inspector · terminal</text>
+    <text x="24" y="87" fill="#eaf2fb" font-size="32" font-weight="700">Quake PAK Inspector</text>
+    <text x="24" y="115" fill="#93aabd" font-size="16">C++20 / QUAKE PACK</text>
+    <text x="24" y="158" fill="#7cdbcc" font-size="17" font-weight="700">QUAKE 1.06 SHAREWARE</text>
+    <text x="24" y="185" fill="#dae7f5" font-size="18">339 entradas indexadas</text>
+    <text x="24" y="212" fill="#dae7f5" font-size="17">maps/e1m1.bsp  @  0x0088f263  ·  1365176 bytes</text>
+    <path d="M 24,235 H 796" stroke="#3d5369"/>
+    <text x="24" y="268" fill="#7cdbcc" font-size="17" font-weight="700">DEMO DE SOBREPOSIÇÃO</text>
+    <text x="24" y="296" fill="#dae7f5" font-size="17">config/arena.cfg</text>
+    <text x="24" y="325" fill="#a9b9cb" font-size="17">SHADOWED  base.pak</text>
+    <text x="286" y="325" fill="#ffd387" font-size="17">ACTIVE  patch.pak</text>
+  </g>
+</svg>
