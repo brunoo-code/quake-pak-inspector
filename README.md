@@ -4,6 +4,18 @@ Ferramenta em **C++20** para inspecionar os pacotes do Quake clássico. Localize
 
 [Baixar demo para Windows](https://github.com/brunoo-code/quake-pak-inspector/releases/latest) · [Validação com Quake 1.06](#validação-com-quake-106) · [Formato binário](#como-o-formato-foi-identificado)
 
+## Interface para Windows
+
+Extraia o ZIP da release e abra **Abrir interface.cmd** para carregar os dois PAKs da demo. Para inspecionar seus próprios arquivos, execute `dist/pak-inspector-gui.exe` e use **Abrir PAK**.
+
+1. Filtre a lista pelo caminho e selecione uma entrada. O painel mostra o offset no pacote, bytes em hexadecimal e a coluna ASCII. Use **Próxima página** para avançar mais 512 bytes.
+2. Use **Comparar com** para abrir outro PAK. A lista indica arquivos adicionados, removidos, alterados ou iguais. Marque **Só diferenças** para esconder os iguais.
+3. Selecione um arquivo alterado para ver os bytes lado a lado. O asterisco identifica posições diferentes no mesmo deslocamento dentro do recurso. Se um trecho tiver sido inserido no meio, a comparação posicional também marcará os bytes deslocados.
+
+Com os exemplos da release, selecione `config/arena.cfg` para conferir a troca de `timelimit 10` para `timelimit 15`. As entradas `docs/old.txt` e `docs/changelog.txt` demonstram remoção e adição. A comparação lê o conteúdo dos arquivos e pode demorar em pacotes grandes.
+
+## Terminal
+
 ![Terminal do Quake PAK Inspector com mapa do Quake shareware e análise de um patch de exemplo](docs/demo.svg)
 
 | Comando | O que revela |
@@ -15,7 +27,7 @@ Ferramenta em **C++20** para inspecionar os pacotes do Quake clássico. Localize
 
 ## Demo
 
-No Windows, extraia o ZIP da release e abra `Abrir demo.cmd`. A sequência lista as entradas, mostra um hexdump, compara dois pacotes e demonstra a ordem de carregamento.
+No Windows, abra `Abrir demo.cmd` para ver a mesma comparação no terminal, com um exemplo adicional de ordem de carregamento.
 
 No pacote original, `config/arena.cfg` define dez minutos. O patch traz a mesma entrada com quinze. Mesmo com o mesmo tamanho, a mudança aparece no diff. O relatório de sobreposição explica por que o patch prevalece.
 
