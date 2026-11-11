@@ -24,10 +24,38 @@ if(WIN32)
   endif()
 endif()
 
+option(BUILD_MOD_HUB "Build the Lua-powered PAK conflict auditor" OFF)
+if(BUILD_MOD_HUB)
+  enable_language(C)
+  include(FetchContent)
+  FetchContent_Declare(lua_src
+    URL https://lua.org/ftp/lua-5.4.9.tar.gz https://www.lua.org/ftp/lua-5.4.9.tar.gz
+    URL_HASH SHA256=2335b6c582a52654f94612bf10d2f4672805d05329aa6568b1d8cd9e5c6fb8e6)
+  FetchContent_MakeAvailable(lua_src)
+  file(GLOB lua_sources CONFIGURE_DEPENDS "${lua_src_SOURCE_DIR}/src/*.c")
+  list(FILTER lua_sources EXCLUDE REGEX "/(lua|luac)\\.c$")
+  add_library(pak-hub-lua STATIC ${lua_sources})
+  target_include_directories(pak-hub-lua PUBLIC "${lua_src_SOURCE_DIR}/src")
+  if(UNIX)
+    target_link_libraries(pak-hub-lua PUBLIC m)
+  endif()
+  if(MSVC)
+    set_property(TARGET pak-hub-lua PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+  endif()
+  add_executable(pak-mod-hub src/mod_hub.cpp src/pak.cpp)
+  configure_inspector(pak-mod-hub)
+  target_link_libraries(pak-mod-hub PRIVATE pak-hub-lua)
+endif()
+
 include(CTest)
 if(BUILD_TESTING)
   find_package(Python3 REQUIRED COMPONENTS Interpreter)
   add_test(NAME cli
     COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/cli.py"
             "$<TARGET_FILE:pak-inspector>")
+  if(BUILD_MOD_HUB)
+    add_test(NAME mod-hub
+      COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/mod_hub.py"
+              "$<TARGET_FILE:pak-mod-hub>" "${CMAKE_CURRENT_SOURCE_DIR}/examples/mod-rules.lua")
+  endif()
 endif()

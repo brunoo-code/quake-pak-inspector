@@ -14,6 +14,21 @@ Extraia o ZIP da release e abra **Abrir interface.cmd** para carregar os dois PA
 
 Com os exemplos da release, selecione `config/arena.cfg` para conferir a troca de `timelimit 10` para `timelimit 15`. As entradas `docs/old.txt` e `docs/changelog.txt` demonstram remoção e adição. A comparação lê o conteúdo dos arquivos e pode demorar em pacotes grandes.
 
+## Hub de mods em C++ e Lua
+
+O protótipo de terminal recebe os PAKs na ordem **base → patches → mod final**. Para cada caminho com mais de um fornecedor, compara os bytes com a versão vencedora e separa duplicatas idênticas de substituições reais. A regra em Lua recebe `(caminho, conteúdo_alterado)` e devolve uma categoria. O C++ cuida da leitura binária e da precedência.
+
+```powershell
+cmake -S . -B build -DBUILD_MOD_HUB=ON
+cmake --build build --config Release
+ctest --test-dir build -C Release --output-on-failure
+.\build\Release\pak-mod-hub.exe examples/mod-rules.lua examples/base.pak examples/patch.pak examples/repacked.pak
+```
+
+O build opcional usa [Lua 5.4.9](https://lua.org/ftp/) com SHA-256 fixado. Use scripts seus ou revisados. O interpretador expõe operações de string e limita as instruções por chamada, mas esse limite não faz dele um sandbox para scripts desconhecidos. O hub analisa os pacotes em modo de leitura.
+
+Na validação com o PAK original do Quake 1.06 e um PAK de teste separado, o hub indexou **339 caminhos** e identificou **uma substituição**, em `maps/e1m1.bsp`. A suíte também verifica três camadas, duplicatas idênticas e o encerramento de um script que excede o limite de instruções.
+
 ## Terminal
 
 ![Terminal do Quake PAK Inspector com mapa do Quake shareware e análise de um patch de exemplo](docs/demo.svg)
